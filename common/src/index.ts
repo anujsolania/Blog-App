@@ -5,14 +5,17 @@ export const signupSchema = z.object({
     password: z.string().min(6),
     name: z.string().optional()
 })
+
 export const signinSchema = z.object({
     username: z.string().email(),
     password: z.string().min(6)
 })
+
 export const createBlog = z.object({
     title: z.string(),
     content: z.string()
 })
+
 export const updateBlog = z.object({
     title: z.string().optional(),
     content: z.string().optional()
