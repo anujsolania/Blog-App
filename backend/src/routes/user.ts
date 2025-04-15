@@ -12,7 +12,13 @@ const userRouter = new Hono<{
 }>()
 
 userRouter.get("/", async (c) => {
-    return c.text("hello hono!")
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL	,
+    }).$extends(withAccelerate());
+
+    const users = await prisma.user.findMany({})
+
+    return c.json({users})
 })
 
 userRouter.post('/signup', async (c) => {
