@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import app from "..";
 import { verify } from "hono/jwt";
 
 
@@ -16,14 +15,15 @@ const blogRouter = new Hono<{
 }>()
 
 blogRouter.use("/*", async (c,next) => {
-    const jwt = c.req.header("Authorization") || ""
-    const payload = await verify(jwt,c.env.JWT_KEY)
-
-    if (!jwt || !payload ) {
-        return c.text("unauthorized")
+    try {
+        const jwt = c.req.header("Authorization") || ""
+        const payload = await verify(jwt,c.env.JWT_KEY)
+        
+        c.set("userid",Number(payload.id))
+        await next()
+    } catch (error) {
+        return c.json({mssg: "you are not logged in"})
     }
-    c.set("userid",Number(payload.id))
-    await next()
 })
 
 blogRouter.post("/", async (c) => {
