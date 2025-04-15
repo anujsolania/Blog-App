@@ -3,6 +3,8 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { sign } from "hono/jwt";
 import { signinSchema, signupSchema } from "@anujsolania/common";
+import { compare, hash } from "bcryptjs";
+
 
 
 
@@ -38,7 +40,7 @@ userRouter.post('/signup', async (c) => {
         const user = await prisma.user.create({
             data: {
                 email: body.email,
-                password: body.password
+                password: await hash(body.password, 10)
             }
         });
         const jwt = await sign({ id: user.id }, c.env.JWT_KEY);
@@ -62,13 +64,17 @@ userRouter.post("/signin", async (c) => {
     }
 
     try {
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findFirst({ 
             where: {
-                email: body.email,
-                password: body.password
+                email: body.email 
             }
-        })
+         })
         if (!user) {
+            c.status(404)
+            return c.json({ mssg: "User not found" })
+        }
+        const isValid = await compare(body.password, user.password)
+        if (!isValid) {
             c.status(403)
             return c.json({mssg: "user doesn't exist"})
         }
