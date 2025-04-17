@@ -1,6 +1,6 @@
 import { Signup } from "../components/Signup"
 
-export const Home = () => {
+export const SignupHome = () => {
     return (
         <div>
             <Signup></Signup>
