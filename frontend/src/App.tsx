@@ -4,6 +4,7 @@ import { SignupHome } from './pages/SignupHome'
 import { SigninHome } from './pages/SigninHome'
 import { Blog } from './pages/Blog'
 import { Createblog } from './pages/Createblog'
+import { BlogS } from './pages/BlogS'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route path='/signin' element={<SigninHome></SigninHome>} ></Route>
       <Route path='/blog' element={<Blog></Blog>} ></Route>
       <Route path='/createblog' element={<Createblog></Createblog>} ></Route>
+      <Route path='/blogs' element={<BlogS></BlogS>} ></Route>
     </Routes>
     </BrowserRouter>
     </>
