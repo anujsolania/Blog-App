@@ -13,6 +13,7 @@ interface Blog {
 
 export const BlogS = () => {
     const [blogs, setblogs] = useState<Blog[]>([]);
+    const[loading,setloading] = useState(true)
 
     async function getBlogs() {
         try {
@@ -22,6 +23,7 @@ export const BlogS = () => {
                 }
             })
             setblogs(response.data.blogs)
+            setloading(false)
         } catch (error) {
             alert("Error fetching blogs")
             console.log(error)
@@ -31,6 +33,8 @@ export const BlogS = () => {
     useEffect(() => {
         getBlogs()
     },[])
+
+    if (loading) return <p className="text-center mt-10">Loading…</p>;
 
     return (
         <div className="h-screen w-screen" >
