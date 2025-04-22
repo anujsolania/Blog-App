@@ -10,7 +10,6 @@ export const Createblog = () => {
     return (
         <div className="h-screen w-screen" >
             <Appbar></Appbar>
-            <hr className="border-t border-gray-200 p-4" ></hr>
             <div className="flex justify-center " >
             <div className="flex flex-col w-[80%] gap-10">
                 <h1 className="text-4xl text-center" >New Blog</h1>

@@ -1,8 +1,45 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { Appbar } from "../components/Appbar";
+
+interface Blog {
+    id: number;
+    title: string;
+    content: string;
+    published: boolean;
+    authorId: number;
+  }
+  
 
 export const BlogS = () => {
+    const [blogs, setblogs] = useState<Blog[]>([]);
+
+    async function getBlogs() {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/blog/bulk`, {
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                }
+            })
+            setblogs(response.data.blogs)
+        } catch (error) {
+            alert("Error fetching blogs")
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getBlogs()
+    },[])
+
     return (
-        <div className="flex h-screen w-screen justify-center" >
+        <div className="h-screen w-screen" >
+            <Appbar></Appbar>
+            <div className="flex justify-center">
             <div className="flex flex-col w-[60%] " >
+            {blogs.map((blog) => (
+            <div key={blog.id} >
+
             <hr className="border-t border-slate-300 mt-[10%] mb-[8%] "></hr>
             <div className="flex gap-2" >
             <div className="flex items-center" >
@@ -15,11 +52,15 @@ export const BlogS = () => {
             <p className="text-slate-600" >Dec 3,2023</p>
             </div>
             <div className="flex flex-col gap-1 pt-2 pb-10" >
-            <h1 className="text-2xl font-bold" >How an Ugly Single-Page Website Makes $5,000 a Month with Affiliate Marketing</h1>
-            <p className="font-serif text-slate-700" >No need to create a fancy and modern website with hundreds of pages to make money online. — Making money online is the dream for man...</p>
+            <h1 className="text-2xl font-bold" >{blog.title}</h1>
+            <p className="font-serif text-slate-700" >{blog.content}</p>
             </div>
             <div>
             <p>3 min read </p>
+            </div>
+
+            </div> 
+            ))}
             </div>
             </div>
         </div>
