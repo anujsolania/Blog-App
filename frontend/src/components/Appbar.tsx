@@ -6,7 +6,7 @@ export const Appbar = () => {
             <h1 className="text-xl" >Blogs App</h1>
             </div>
             <div className="flex w-1/2 justify-end gap-10">
-            <h1 className="text-lg" >Hey, Blogger Anuj </h1>
+            <h1 className="text-lg" >Hey, Blogger</h1>
             <button className="w-8 h-8 border rounded"><i className="ri-menu-line"></i></button>
             </div>
         </div>

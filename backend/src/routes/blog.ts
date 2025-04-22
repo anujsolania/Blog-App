@@ -27,7 +27,7 @@ blogRouter.use("/*", async (c,next) => {
     }
 })
 
-blogRouter.post("/", async (c) => {
+blogRouter.post("/createblog", async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL
     }).$extends(withAccelerate())
@@ -47,7 +47,8 @@ blogRouter.post("/", async (c) => {
                 authorId: userid
             }
         })
-        return c.json({mssg: "blog created", id: blog.id})
+        c.status(200)
+        return c.json({mssg: "blog created", blogid: blog.id})
     } catch (error) {
         console.log(error)
         return c.text("error while creating blog")

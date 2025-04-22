@@ -12,8 +12,8 @@ export const signinSchema = z.object({
 })
 
 export const createBlog = z.object({
-    title: z.string(),
-    content: z.string()
+    title: z.string().min(4,{message: "Title's too short"}),
+    content: z.string().min(20,{message: "Content's too short"})
 })
 
 export const updateBlog = z.object({
