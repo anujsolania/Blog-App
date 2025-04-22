@@ -37,18 +37,28 @@ userRouter.post('/signup', async (c) => {
         return c.json({mssg: "invalid inputs"})
     }
     try {
+        const userCheck = await prisma.user.findFirst({ 
+            where: {
+                email: body.email 
+            }
+         })
+        if (userCheck) {
+            return c.json({ mssg: "Email already registered" })
+        }
         const user = await prisma.user.create({
             data: {
+                name: body.name,
                 email: body.email,
-                password: await hash(body.password, 10)
+                password: await hash(body.password, 10),
             }
         });
+        
         const jwt = await sign({ id: user.id }, c.env.JWT_KEY);
-        return c.json({ jwt });
+        return c.json({mssg: "Signup successfull", jwt });
     } catch(e) {
         console.log(e)
         c.status(403);
-        return c.json({ error: "error while signing up" });
+        return c.json({ mssg: "signup error" });
     }
 })
 
@@ -59,6 +69,7 @@ userRouter.post("/signin", async (c) => {
 
     const body = await c.req.json()
     const { success } = signinSchema.safeParse(body)
+    console.log(body)
     if (!success) {
         return c.json({mssg: "invalid inputs"})
     }

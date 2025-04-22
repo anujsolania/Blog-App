@@ -1,13 +1,17 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios";
-import { z } from "zod";
+import { signupSchema } from "@anujsolania/common";
 
 
 export const Signup = () => {
     const[email,setemail] = useState("")
     const[password,setpassword] = useState("")
     const[name,setname] = useState("")
+
+    const body = {email,password,name}
+
+    const navigate = useNavigate()
 
     return (
         <div className="flex h-screen w-screen" >
@@ -30,17 +34,22 @@ export const Signup = () => {
                     <button className="border rounded-md bg-black text-slate-50 p-1 mt-4" 
                     onClick={async () => {
                         try {
+                            const {success} = signupSchema.safeParse(body)
+                            if (!success) return alert("invalid inputsss")
+                            
                             console.log(import.meta.env.VITE_BACKEND_URL)
                             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`,{
                                 email,
                                 password,
+                                name: name.trim() === "" ? undefined : name
                             })
                             const token = response.data.jwt
                             if (token) {
-                                alert("maybe successfull")
+                                alert(response.data.mssg)
                                 localStorage.setItem("token",token)
+                                navigate("/blogs")
                             } else {
-                                alert("signup unsuccessfull")
+                                alert(response.data.mssg)
                             }
                         } catch (error) {
                             console.log(error)
