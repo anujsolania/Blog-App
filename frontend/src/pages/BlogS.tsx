@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Appbar } from "../components/Appbar";
+import { useNavigate } from "react-router-dom";
 
 interface Blog {
     id: number;
@@ -14,6 +15,8 @@ interface Blog {
 export const BlogS = () => {
     const [blogs, setblogs] = useState<Blog[]>([]);
     const[loading,setloading] = useState(true)
+
+    const navigate = useNavigate()
 
     async function getBlogs() {
         try {
@@ -42,7 +45,9 @@ export const BlogS = () => {
             <div className="flex justify-center">
             <div className="flex flex-col w-[60%] " >
             {blogs.map((blog) => (
-            <div key={blog.id} >
+            <div key={blog.id} onClick={async () => {
+                navigate(`/${blog.id}`)
+            }} >
 
             <hr className="border-t border-slate-300 mt-[10%] mb-[8%] "></hr>
             <div className="flex gap-2" >

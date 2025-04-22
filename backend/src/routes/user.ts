@@ -81,7 +81,6 @@ userRouter.post("/signin", async (c) => {
             }
          })
         if (!user) {
-            c.status(404)
             return c.json({ mssg: "User not found" })
         }
         const isValid = await compare(body.password, user.password)

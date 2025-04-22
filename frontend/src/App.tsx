@@ -19,6 +19,7 @@ function App() {
       <Route path='/blog' element={<Blog></Blog>} ></Route>
       <Route path='/createblog' element={<Createblog></Createblog>} ></Route>
       <Route path='/blogs' element={<BlogS></BlogS>} ></Route>
+      <Route path='/:bid' element={<Blog></Blog>}></Route>
     </Routes>
     </BrowserRouter>
     </>

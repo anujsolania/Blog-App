@@ -97,13 +97,14 @@ blogRouter.get("/bulk", async (c) => {
     }
 })
 
-blogRouter.get("/:id", async (c) => {
+blogRouter.get("/:bid", async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL
     }).$extends(withAccelerate())
 
-    const blogid = c.req.param("id")
+    const blogid = c.req.param("bid")
     try {
+        console.log(blogid)
         const blog = await prisma.blog.findFirst({
             where: {
                 id: Number(blogid)
