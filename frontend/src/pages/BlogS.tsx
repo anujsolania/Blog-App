@@ -43,7 +43,7 @@ export const BlogS = () => {
         <div className="h-screen w-screen" >
             <Appbar></Appbar>
             <div className="flex justify-center">
-            <div className="flex flex-col w-[60%] " >
+            <div className="flex flex-col w-[60%] cursor-pointer" >
             {blogs.map((blog) => (
             <div key={blog.id} onClick={async () => {
                 navigate(`/${blog.id}`)

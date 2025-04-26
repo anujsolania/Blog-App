@@ -17,7 +17,7 @@ export const Createblog = () => {
                 value={title} onChange={(e) => {settitle(e.target.value)}}></input>
                 <textarea className="border p-4 rounded-xl bg-slate-50" rows={10} placeholder="Enter content" 
                 value={content} onChange={(e) => {setcontent(e.target.value)}}></textarea>
-                <button className="w-1/8 border bg-black text-slate-200 rounded-xl p-2" 
+                <button className="w-1/4 md:w-1/8 border bg-black text-slate-200 rounded-xl p-2" 
                 onClick={async () => {
 
                     const result = createBlog.safeParse({title: title.trim(),content: content.trim()})
@@ -44,7 +44,7 @@ export const Createblog = () => {
                         console.log(error)
                         alert("some errorrrrr")
                     }
-                }}>Publish Blog</button>
+                }}>Publish</button>
             </div>
             </div>
         </div>
